@@ -1,0 +1,14 @@
+../Drivers/CMSIS/Include/core_cm4.h:1814:22:__NVIC_SetPriority	2
+../Drivers/CMSIS/Include/core_cm4.h:2022:26:SysTick_Config	2
+../airos/airos_task.c:15:20:airos_task_cpu_setup	1
+../airos/airos_task.c:23:20:airos_disable_irq	1
+../airos/airos_task.c:28:20:airos_enable_irq	1
+../airos/airos_task.c:33:20:airos_trigger_pendsv	1
+../airos/airos_task.c:38:6:airos_task_enable_schedule	1
+../airos/airos_task.c:43:6:airos_task_disable_schedule	1
+../airos/airos_task.c:58:6:airos_task_init	2
+../airos/airos_task.c:72:6:airos_task_create	3
+../airos/airos_task.c:110:6:airos_task_sleep	2
+../airos/airos_task.c:122:6:airos_task_suspend	2
+../airos/airos_task.c:134:6:airos_task_resume	3
+../airos/airos_task.c:151:6:airos_task_schedule	11
