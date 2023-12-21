@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "signal.h": "c",
+        "stdlib.h": "c",
+        "errno.h": "c",
+        "stdio.h": "c",
+        "time.h": "c",
+        "airos_task.h": "c",
+        "airos_mutex.h": "c"
+    }
+}

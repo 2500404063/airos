@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "airos_task.h"
+#include "airos.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,9 +54,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-airos_task_t task_task1;
 airos_queue_node_t task_node_task1;
-addr_t stack_task1[512];
 void task1()
 {
     while (1)
@@ -64,9 +62,7 @@ void task1()
     }
 }
 
-airos_task_t task_task2;
 airos_queue_node_t task_node_task2;
-addr_t stack_task2[512];
 void task2()
 {
     while (1)
@@ -105,8 +101,8 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   airos_task_init();
-  airos_task_create(&task_task1, &task_node_task1, stack_task1 + 512, task1, 0, 0);
-  airos_task_create(&task_task2, &task_node_task2, stack_task2 + 512, task2, 0, 0);
+  airos_task_create(&task_node_task1, 0, task1, 128, 0);
+  airos_task_create(&task_node_task2, 0, task2, 128, 0);
   airos_task_enable_schedule();
   /* USER CODE END 2 */
 
