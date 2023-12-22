@@ -20,25 +20,30 @@ extern "C"
             unsigned short v_uint16;
             unsigned long v_uint32;
             float v_float;
+            void *v_any;
         };
 
     } airos_chan_t;
 
-void airos_chan_write_int8(airos_chan_t *chan, char v);
-void airos_chan_write_int16(airos_chan_t *chan, short v);
-void airos_chan_write_int32(airos_chan_t *chan, long v);
-void airos_chan_write_uint8(airos_chan_t *chan, unsigned char v);
-void airos_chan_write_uint16(airos_chan_t *chan, unsigned short v);
-void airos_chan_write_uint32(airos_chan_t *chan, unsigned long v);
-void airos_chan_write_float(airos_chan_t *chan, float v);
-char airos_chan_read_int8(airos_chan_t *chan);
-short airos_chan_read_int16(airos_chan_t *chan);
-short airos_chan_read_int16(airos_chan_t *chan);
-long airos_chan_read_int32(airos_chan_t *chan);
-unsigned char airos_chan_read_uint8(airos_chan_t *chan);
-unsigned short airos_chan_read_uint16(airos_chan_t *chan);
-unsigned long airos_chan_read_uint32(airos_chan_t *chan);
-float airos_chan_read_float(airos_chan_t *chan);
+    void airos_chan_write_int8(airos_chan_t *chan, char v);
+    void airos_chan_write_int16(airos_chan_t *chan, short v);
+    void airos_chan_write_int32(airos_chan_t *chan, long v);
+    void airos_chan_write_uint8(airos_chan_t *chan, unsigned char v);
+    void airos_chan_write_uint16(airos_chan_t *chan, unsigned short v);
+    void airos_chan_write_uint32(airos_chan_t *chan, unsigned long v);
+    void airos_chan_write_float(airos_chan_t *chan, float v);
+    void airos_chan_write_any(airos_chan_t *chan, void *v);
+
+    char airos_chan_read_int8(airos_chan_t *chan);
+    short airos_chan_read_int16(airos_chan_t *chan);
+    short airos_chan_read_int16(airos_chan_t *chan);
+    long airos_chan_read_int32(airos_chan_t *chan);
+    unsigned char airos_chan_read_uint8(airos_chan_t *chan);
+    unsigned short airos_chan_read_uint16(airos_chan_t *chan);
+    unsigned long airos_chan_read_uint32(airos_chan_t *chan);
+    float airos_chan_read_float(airos_chan_t *chan);
+    void *airos_chan_read_any(airos_chan_t *chan);
+    void airos_chan_solved(airos_chan_t *chan);
 
 #ifdef _cplusplus
 }

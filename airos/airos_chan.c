@@ -63,12 +63,20 @@ void airos_chan_write_float(airos_chan_t *chan, float v)
     chan->v_float = v;
 }
 
+void airos_chan_write_any(airos_chan_t *chan, void *v)
+{
+    while (chan->busy)
+    {
+    }
+    chan->busy = 1;
+    chan->v_any = v;
+}
+
 char airos_chan_read_int8(airos_chan_t *chan)
 {
     while (!chan->busy)
     {
     }
-    chan->busy = 0;
     return chan->v_int8;
 }
 
@@ -77,7 +85,6 @@ short airos_chan_read_int16(airos_chan_t *chan)
     while (!chan->busy)
     {
     }
-    chan->busy = 0;
     return chan->v_int16;
 }
 
@@ -86,7 +93,6 @@ long airos_chan_read_int32(airos_chan_t *chan)
     while (!chan->busy)
     {
     }
-    chan->busy = 0;
     return chan->v_int32;
 }
 
@@ -95,7 +101,6 @@ unsigned char airos_chan_read_uint8(airos_chan_t *chan)
     while (!chan->busy)
     {
     }
-    chan->busy = 0;
     return chan->v_uint8;
 }
 
@@ -104,7 +109,6 @@ unsigned short airos_chan_read_uint16(airos_chan_t *chan)
     while (!chan->busy)
     {
     }
-    chan->busy = 0;
     return chan->v_uint16;
 }
 
@@ -113,7 +117,6 @@ unsigned long airos_chan_read_uint32(airos_chan_t *chan)
     while (!chan->busy)
     {
     }
-    chan->busy = 0;
     return chan->v_uint32;
 }
 
@@ -122,6 +125,18 @@ float airos_chan_read_float(airos_chan_t *chan)
     while (!chan->busy)
     {
     }
-    chan->busy = 0;
     return chan->v_float;
+}
+
+void *airos_chan_read_any(airos_chan_t *chan)
+{
+    while (!chan->busy)
+    {
+    }
+    return chan->v_any;
+}
+
+void airos_chan_solved(airos_chan_t *chan)
+{
+    chan->busy = 0;
 }
