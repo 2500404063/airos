@@ -57,9 +57,10 @@ static void MX_GPIO_Init(void);
 airos_queue_node_t task_node_task1;
 void task1()
 {
-    while (1)
-    {
-    }
+//    while (1)
+//    {
+//    }
+    airos_task_destory(0);
 }
 
 airos_queue_node_t task_node_task2;
@@ -101,8 +102,8 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   airos_task_init();
-  airos_task_create(&task_node_task1, 0, task1, 128, 0);
-  airos_task_create(&task_node_task2, 0, task2, 128, 0);
+  airos_task_create(&task_node_task1, task1, 128, 0);
+  airos_task_create(&task_node_task2, task2, 128, 0);
   airos_task_enable_schedule();
   /* USER CODE END 2 */
 

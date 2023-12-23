@@ -1,6 +1,6 @@
 #include "airos_task.h"
 
-airos_queue_node_t task_queue_ready[PRIORITY_MAX];
+airos_queue_node_t task_queue_ready[AIROS_PRIORITY_MAX];
 airos_queue_node_t task_queue_suspend;
 airos_queue_node_t task_queue_sleep;
 
@@ -8,6 +8,15 @@ airos_task_t *cur_task;
 airos_task_t *pre_task;
 airos_queue_node_t *cur_task_node;
 airos_queue_node_t *pre_task_node;
+
+airos_queue_node_t airos_default_task_node;
+
+void _airos_default_task()
+{
+    while (1)
+    {
+    }
+}
 
 static int schedule_enable = 0;
 
@@ -46,7 +55,7 @@ inline void airos_task_disable_schedule()
 
 void airos_task_init()
 {
-    for (unsigned char i = 0; i < PRIORITY_MAX; i++)
+    for (unsigned char i = 0; i < AIROS_PRIORITY_MAX; i++)
     {
         airos_queue_node_init(task_queue_ready + i, 0);
     }
@@ -56,9 +65,11 @@ void airos_task_init()
     cur_task = 0;
     cur_task_node = 0;
     airos_task_cpu_setup();
+    // create a default task
+    airos_task_create(&airos_default_task_node, _airos_default_task, 32, AIROS_PRIORITY_MAX);
 }
 
-void airos_task_create(airos_queue_node_t *task_node, unsigned char id, task_func_t entry, unsigned long stack_size, unsigned char priority)
+void airos_task_create(airos_queue_node_t *task_node, task_func_t entry, unsigned long stack_size, unsigned char priority)
 {
     // allocate
     airos_task_t *task = (airos_task_t *)malloc(sizeof(airos_task_t));
@@ -67,7 +78,6 @@ void airos_task_create(airos_queue_node_t *task_node, unsigned char id, task_fun
     // init structure
     airos_queue_node_init(task_node, task);
     task->entry = entry;
-    task->id = id;
     task->_sp = stack;
     task->status = AIROS_TASK_READY;
     task->priority = priority;
@@ -105,9 +115,9 @@ void airos_task_create(airos_queue_node_t *task_node, unsigned char id, task_fun
 
 void airos_task_destory(airos_queue_node_t *task_node)
 {
-    if (task_node == cur_task_node)
+    if (task_node == 0)
     {
-        return;
+        task_node = cur_task_node;
     }
     airos_queue_remove_node(task_node);
     airos_task_t *task = (airos_task_t *)task_node->value;
@@ -164,7 +174,7 @@ void airos_task_schedule()
     if (schedule_enable == 0)
         return;
     // schedule by priority, the lower priority the higher level;
-    for (int i = 0; i < PRIORITY_MAX; i++)
+    for (int i = 0; i < AIROS_PRIORITY_MAX; i++)
     {
         airos_queue_node_t *task_node_priority = task_queue_ready + i;
         if (task_node_priority->value == 0)
@@ -224,38 +234,4 @@ void airos_task_schedule()
         airos_trigger_pendsv();
     }
     airos_enable_irq();
-}
-
-void airos_mutex_init(airos_mutex_t *m)
-{
-    m->lock = 0;
-    airos_queue_node_init(&m->task_nodes, 0);
-}
-
-void airos_mutex_lock(airos_mutex_t *m)
-{
-    if (m->lock == 0)
-    {
-        m->lock = 1;
-    }
-    else
-    {
-        cur_task->status = AIROS_TASK_MUTED;
-        airos_queue_remove_node(cur_task_node);
-        airos_queue_add_next(&m->task_nodes, cur_task_node);
-        airos_task_schedule();
-    }
-}
-
-void airos_mutex_unlock(airos_mutex_t *m)
-{
-    if (m->lock == 0)
-        return;
-    m->lock = 0;
-    airos_queue_node_t *task_node = &m->task_nodes;
-    while (task_node->nextNode != task_node)
-    {
-        task_node = task_node->nextNode;
-        airos_task_resume(task_node);
-    }
 }

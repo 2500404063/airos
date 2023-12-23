@@ -1,6 +1,7 @@
 #ifndef AIROS_CHAN_H_
 #define AIROS_CHAN_H_
 
+#include "airos_task.h"
 #include <stdlib.h>
 
 #ifdef _cplusplus
@@ -10,7 +11,7 @@ extern "C"
 
     typedef struct _airos_chan_t
     {
-        unsigned int busy;
+        unsigned short busy;
         union
         {
             char v_int8;

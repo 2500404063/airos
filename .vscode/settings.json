@@ -6,6 +6,8 @@
         "stdio.h": "c",
         "time.h": "c",
         "airos_task.h": "c",
-        "airos_mutex.h": "c"
+        "airos_mutex.h": "c",
+        "airos_config.h": "c",
+        "airos_chan.h": "c"
     }
 }
