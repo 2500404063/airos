@@ -1,4 +1,5 @@
 #ifndef AIROS_TASK_H_
+#define AIROS_TASK_H_
 
 #include "airos_config.h"
 #include "airos_queue.h"
@@ -8,15 +9,6 @@
 extern "C"
 {
 #endif
-
-    extern airos_queue_node_t task_queue_ready[AIROS_PRIORITY_MAX];
-    extern airos_queue_node_t task_queue_suspend;
-    extern airos_queue_node_t task_queue_sleep;
-
-    extern airos_task_t *cur_task;
-    extern airos_task_t *pre_task;
-    extern airos_queue_node_t *cur_task_node;
-    extern airos_queue_node_t *pre_task_node;
 
 #define AIROS_TASK_READY (0)
 #define AIROS_TASK_SUSPEND (1)
@@ -37,8 +29,16 @@ extern "C"
         unsigned char status;   // task status
         unsigned char priority; // task priority
         unsigned short sleep;   // sleep count
-        unsigned char *mutex;   // mutex address
     } airos_task_t;
+
+   extern airos_queue_node_t task_queue_ready[AIROS_PRIORITY_MAX];
+   extern airos_queue_node_t task_queue_suspend;
+   extern airos_queue_node_t task_queue_sleep;
+
+   extern airos_task_t *cur_task;
+   extern airos_task_t *pre_task;
+   extern airos_queue_node_t *cur_task_node;
+   extern airos_queue_node_t *pre_task_node;
 
     void airos_task_init();
     void airos_task_create(airos_queue_node_t *task_node, task_func_t entry, unsigned long stack_size, unsigned char priority);

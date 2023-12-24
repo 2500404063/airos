@@ -62,11 +62,12 @@ airos_context_t *airos_context_get_begin(airos_context_t *ctx, unsigned long key
         {
             while (ctx->ready == 0)
             {
-                /* code */
+                SCHEDULE_PLACE();
             }
             return ctx;
         }
     }
+    return 0;
 }
 
 void airos_context_get_end(airos_context_t *ctx)
